@@ -83,3 +83,33 @@ Stage Summary:
 - Production build succeeds
 - Page renders correctly with all interactive elements
 - Server requires port 3001 with -H 0.0.0.0 flag for Caddy proxy access
+
+---
+Task ID: 10
+Agent: Main Orchestrator
+Task: Fix port configuration and Caddy gateway compatibility
+
+Work Log:
+- Discovered Caddy gateway proxies to port 3000, not 3001
+- Updated package.json dev script to use port 3000
+- Updated Caddyfile to use 127.0.0.1 instead of localhost (IPv4 vs IPv6 fix)
+- Updated Caddyfile to proxy to port 3000 instead of 3001
+- Rebuilt production bundle and copied static files to standalone directory
+- Verified Caddy returns 200 when server runs on port 3000
+- Verified agent-browser can load the app through Caddy gateway
+- Tested all 5 modules (Clock, World Clock, Stopwatch, Timer, Alarm)
+- Tested theme switching (Light/Dark/System)
+- Tested 12H/24H format toggle
+- Tested World Clock city search and add/remove
+- Tested Stopwatch start/pause/lap/reset
+- Tested Timer with presets and start/pause
+- Tested Alarm creation dialog
+- Tested responsive design with mobile viewport (375x812)
+- ESLint passes with no errors
+
+Stage Summary:
+- App fully works through Caddy gateway on port 81
+- All 5 clock modules verified functional via agent-browser
+- Port 3000 is the correct port for Caddy compatibility
+- Production server has stability issues in sandbox (dies after ~10s)
+- Keep-server-alive.sh script provides automatic restart capability
