@@ -4,16 +4,33 @@ import { useClock, useSmoothClock } from '@/hooks/use-clock';
 import { useSettingsStore } from '@/stores/settings-store';
 import { formatDigitalTime, formatDate } from '@/lib/time-utils';
 import { ThemeToggle } from '@/components/layout/ThemeToggle';
+import { useSyncExternalStore } from 'react';
+
+// Hydration-safe mount detection
+const emptySubscribe = () => () => {};
+const getClientSnapshot = () => true;
+const getServerSnapshot = () => false;
 
 export function ClockModule() {
+  const mounted = useSyncExternalStore(emptySubscribe, getClientSnapshot, getServerSnapshot);
+
   return (
     <div className="flex flex-col items-center gap-6 px-4 pt-8 pb-4">
       <div className="flex w-full items-center justify-between">
         <h1 className="text-lg font-semibold text-foreground">Clock</h1>
         <ThemeToggle />
       </div>
-      <AnalogClock />
-      <DigitalClock />
+      {mounted ? (
+        <>
+          <AnalogClock />
+          <DigitalClock />
+        </>
+      ) : (
+        <div className="flex flex-col items-center gap-6">
+          <div className="h-[260px] w-[260px] rounded-full bg-muted/50 animate-pulse" />
+          <div className="h-16 w-48 rounded-lg bg-muted/50 animate-pulse" />
+        </div>
+      )}
     </div>
   );
 }
@@ -29,14 +46,14 @@ function DigitalClock() {
   return (
     <div className="flex flex-col items-center gap-2">
       <div className="flex items-baseline gap-2">
-        <span className="font-mono text-5xl font-bold tracking-tight text-foreground sm:text-6xl">
+        <span className="font-mono text-5xl font-bold tracking-tight text-foreground sm:text-6xl" suppressHydrationWarning>
           {time}
         </span>
         {period && (
-          <span className="text-xl font-medium text-muted-foreground">{period}</span>
+          <span className="text-xl font-medium text-muted-foreground" suppressHydrationWarning>{period}</span>
         )}
       </div>
-      <p className="text-sm text-muted-foreground">{dateStr}</p>
+      <p className="text-sm text-muted-foreground" suppressHydrationWarning>{dateStr}</p>
       <button
         onClick={() => setIs24Hour(!is24Hour)}
         className="mt-2 rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
@@ -68,7 +85,7 @@ function AnalogClock() {
   const radius = size / 2 - 10;
 
   return (
-    <div className="relative">
+    <div className="relative" suppressHydrationWarning>
       <svg
         width={size}
         height={size}

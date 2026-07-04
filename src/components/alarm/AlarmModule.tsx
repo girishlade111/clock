@@ -6,7 +6,7 @@ import { DAYS_OF_WEEK } from '@/lib/time-utils';
 import { Plus, Trash2, Bell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
-import { Dialog, DialogContent, DialogTrigger, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useState, useCallback } from 'react';
@@ -43,6 +43,7 @@ export function AlarmModule() {
           </DialogTrigger>
           <DialogContent className="max-w-md">
             <DialogTitle>{editingAlarm ? 'Edit Alarm' : 'New Alarm'}</DialogTitle>
+            <DialogDescription className="sr-only">{editingAlarm ? 'Edit your alarm settings' : 'Create a new alarm'}</DialogDescription>
             <AlarmForm initialData={editingAlarm} onSave={handleSave} onCancel={() => { setShowCreate(false); setEditingAlarm(null); }} />
           </DialogContent>
         </Dialog>

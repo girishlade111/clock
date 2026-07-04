@@ -10,7 +10,7 @@ import { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Dialog, DialogContent, DialogTrigger, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 
 export function WorldClockModule() {
   const { cities, addCity, removeCity } = useWorldClockStore();
@@ -32,6 +32,7 @@ export function WorldClockModule() {
           </DialogTrigger>
           <DialogContent className="max-w-md">
             <DialogTitle>Add City</DialogTitle>
+            <DialogDescription className="sr-only">Search and add a city to your world clock</DialogDescription>
             <AddCityDialog
               onAdd={(city) => {
                 addCity(city);
@@ -59,7 +60,7 @@ export function WorldClockModule() {
         <div className="grid gap-3">
           {cities.map((city, index) => (
             <WorldCityCard
-              key={city.timezone}
+              key={city.id}
               city={city}
               now={now}
               is24Hour={is24Hour}
@@ -111,7 +112,7 @@ function WorldCityCard({
         </div>
       </div>
       <div className="text-right">
-        <p className="font-mono text-xl font-bold text-foreground">{timeInCity}</p>
+        <p className="font-mono text-xl font-bold text-foreground" suppressHydrationWarning>{timeInCity}</p>
       </div>
       <button onClick={onRemove} className="shrink-0 rounded-full p-1.5 text-muted-foreground opacity-0 transition-all hover:bg-destructive/10 hover:text-destructive group-hover:opacity-100" aria-label={`Remove ${city.city}`}>
         <X className="h-4 w-4" />
