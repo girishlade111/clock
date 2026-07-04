@@ -1,0 +1,26 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Alarm {
+  id        String   @id @default(cuid())
+  label     String   @default("Alarm")
+  hour      Int      // 0-23
+  minute    Int      // 0-59
+  second    Int      @default(0)
+  enabled   Boolean  @default(true)
+  repeat    String   @default("once") // once, daily, weekdays, weekends, custom
+  customDays String  @default("[]")   // JSON array of day numbers [0-6], 0=Sunday
+  snoozeMinutes Int  @default(5)
+  sound     String   @default("default")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
