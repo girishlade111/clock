@@ -52,3 +52,7 @@ prompt
 server.log
 # Skills directory
 /skills/
+
+# process / pid files (never commit runtime state)
+*.pid
+.zscripts/*.pid
