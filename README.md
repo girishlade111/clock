@@ -36,3 +36,7 @@ npm start
 
 ## License
 Proprietary / check repo for LICENSE.
+
+---
+
+*Built by Girish Lade — [ladestack.in](https://ladestack.in)*
